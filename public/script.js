@@ -1,6 +1,7 @@
 const page = document.body.dataset.page;
 const logEl = document.getElementById('log');
 const BASE_URL = window.BASE_URL;
+const QUEUE_INSIGHT_PLACEHOLDER = 'Enter your User ID and refresh queue to see users behind you.';
 
 const log = (title, payload) => {
   if (!logEl) return;
@@ -75,6 +76,12 @@ const refreshQueueStatus = async (targetId = 'queue-status') => {
     log('Failed to fetch queue status', err);
     return null;
   }
+};
+
+const getWaitingUsers = (queueStatus) => {
+  if (Array.isArray(queueStatus?.waitingUsers)) return queueStatus.waitingUsers;
+  if (Array.isArray(queueStatus?.waitingQueue)) return queueStatus.waitingQueue;
+  return [];
 };
 
 const initUsersPage = () => {
@@ -176,8 +183,43 @@ const initQueuePage = () => {
 
 const initBookingPage = () => {
   const form = document.getElementById('book-form');
+  const userIdInput = document.getElementById('book-user-id');
   const refreshEventsBtn = document.getElementById('refresh-events');
   const queueBtn = document.getElementById('queue-status-btn');
+  const queueInsightEl = document.getElementById('booking-queue-insight');
+  let latestQueueStatus = null;
+
+  const renderQueueInsight = () => {
+    if (!queueInsightEl) return;
+    const userId = Number(userIdInput?.value);
+    if (!Number.isInteger(userId) || userId <= 0 || !latestQueueStatus) {
+      queueInsightEl.textContent = QUEUE_INSIGHT_PLACEHOLDER;
+      return;
+    }
+
+    const waitingUsers = getWaitingUsers(latestQueueStatus).map((id) => Number(id));
+    const activeUsers = Array.isArray(latestQueueStatus.activeUserList) ? latestQueueStatus.activeUserList : [];
+    const normalizedActiveUsers = activeUsers.map((id) => Number(id));
+    const waitingIndex = waitingUsers.indexOf(userId);
+
+    if (waitingIndex !== -1) {
+      const usersAfterYou = waitingUsers.length - waitingIndex - 1;
+      queueInsightEl.textContent = `${usersAfterYou} users are in queue after you.`;
+      return;
+    }
+
+    if (normalizedActiveUsers.includes(userId)) {
+      queueInsightEl.textContent = `${waitingUsers.length} users are in queue after you.`;
+      return;
+    }
+
+    queueInsightEl.textContent = 'You are not currently in the queue.';
+  };
+
+  const refreshBookingQueueStatus = async () => {
+    latestQueueStatus = await refreshQueueStatus();
+    renderQueueInsight();
+  };
 
   const refreshEvents = async () => {
     try {
@@ -197,17 +239,18 @@ const initBookingPage = () => {
       log('Booking response', data);
       e.target.reset();
       await refreshEvents();
-      await refreshQueueStatus();
+      await refreshBookingQueueStatus();
     } catch (err) {
       log('Booking failed', err);
     }
   });
 
   refreshEventsBtn?.addEventListener('click', refreshEvents);
-  queueBtn?.addEventListener('click', () => refreshQueueStatus());
+  queueBtn?.addEventListener('click', refreshBookingQueueStatus);
+  userIdInput?.addEventListener('input', renderQueueInsight);
 
   refreshEvents();
-  refreshQueueStatus();
+  refreshBookingQueueStatus();
 };
 
 const initDashboardPage = () => {
@@ -225,7 +268,7 @@ const initDashboardPage = () => {
       usersCountEl.textContent = users.length;
       eventsCountEl.textContent = events.length;
       seatsEl.textContent = events.reduce((sum, event) => sum + Number(event.available_seats || 0), 0);
-      waitingEl.textContent = Array.isArray(queue.waitingQueue) ? queue.waitingQueue.length : 0;
+      waitingEl.textContent = getWaitingUsers(queue).length;
       log('Dashboard refreshed', { users: users.length, events: events.length });
     } catch (err) {
       log('Dashboard refresh failed', err);

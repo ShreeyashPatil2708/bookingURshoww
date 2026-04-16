@@ -3,8 +3,7 @@ const { startBookingSession } = require('./bookingController');
 
 // In-memory queue state
 let queue = [];                // Waiting list of user_ids (FIFO)
-let activeUsers = 0;           // Count of users currently allowed to book
-const activeUserSet = new Set(); // Track which specific users are active (prevents abuse)
+let activeUsers = new Set();   // Users currently allowed to book
 const MAX_ACTIVE_USERS = 5;    // Maximum concurrent active booking users
 
 /**
@@ -24,15 +23,14 @@ const enterQueue = (req, res) => {
   }
 
   // Prevent a user from joining the queue twice
-  if (activeUserSet.has(user_id) || queue.includes(user_id)) {
+  if (activeUsers.has(user_id) || queue.includes(user_id)) {
     return res.status(409).json({ error: 'User is already in the queue or active.' });
   }
 
-  if (activeUsers < MAX_ACTIVE_USERS) {
+  if (activeUsers.size < MAX_ACTIVE_USERS) {
     // Slot available — allow the user to book immediately
-    activeUsers++;
-    activeUserSet.add(user_id);
-    console.log(`User ${user_id} allowed to book. Active users: ${activeUsers}/${MAX_ACTIVE_USERS}`);
+    activeUsers.add(user_id);
+    console.log(`User ${user_id} allowed to book. Active users: ${activeUsers.size}/${MAX_ACTIVE_USERS}`);
 
     // Start the 2-minute booking session timer for this user
     startBookingSession(user_id);
@@ -73,37 +71,35 @@ const exitQueue = (req, res) => {
   }
 
   // Only active users should be able to call exit
-  if (!activeUserSet.has(user_id)) {
+  if (!activeUsers.has(user_id)) {
     return res.status(400).json({ error: 'User is not currently active in the booking queue.' });
   }
 
-  activeUserSet.delete(user_id);
-  activeUsers--;
+  activeUsers.delete(user_id);
 
-  console.log(`User ${user_id} exited. Active users: ${activeUsers}/${MAX_ACTIVE_USERS}`);
+  console.log(`User ${user_id} exited. Active users: ${activeUsers.size}/${MAX_ACTIVE_USERS}`);
 
   if (queue.length > 0) {
     // Promote the next user from the waiting queue (FIFO removal)
     const nextUser = queue.shift();
-    activeUsers++;
-    activeUserSet.add(nextUser);
+    activeUsers.add(nextUser);
 
     // Start the booking session timer for the newly promoted user
     startBookingSession(nextUser);
 
-    console.log(`Next user allowed: ${nextUser}. Active users: ${activeUsers}/${MAX_ACTIVE_USERS}`);
+    console.log(`Next user allowed: ${nextUser}. Active users: ${activeUsers.size}/${MAX_ACTIVE_USERS}`);
 
     return res.json({
       message: 'Exit successful. Next user promoted.',
       nextUser,
-      activeUsers,
+      activeUsers: activeUsers.size,
       queueLength: queue.length,
     });
   }
 
   return res.json({
     message: 'Exit successful.',
-    activeUsers,
+    activeUsers: activeUsers.size,
     queueLength: queue.length,
   });
 };
@@ -114,11 +110,12 @@ const exitQueue = (req, res) => {
  */
 const getQueueStatus = (req, res) => {
   res.json({
-    activeUsers,
+    activeUsers: activeUsers.size,
     maxActiveUsers: MAX_ACTIVE_USERS,
     queueLength: queue.length,
-    activeUserList: Array.from(activeUserSet),
+    activeUserList: Array.from(activeUsers),
     waitingUsers: queue,
+    waitingQueue: queue, // Backward-compatible alias used by existing UI consumers
   });
 };
 
