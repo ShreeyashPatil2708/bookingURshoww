@@ -115,7 +115,7 @@ const getQueueStatus = (req, res) => {
     queueLength: queue.length,
     activeUserList: Array.from(activeUsers),
     waitingUsers: queue,
-    waitingQueue: queue,
+    waitingQueue: queue, // Backward-compatible alias used by existing UI consumers
   });
 };
 

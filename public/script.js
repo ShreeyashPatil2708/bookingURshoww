@@ -1,6 +1,7 @@
 const page = document.body.dataset.page;
 const logEl = document.getElementById('log');
 const BASE_URL = window.BASE_URL;
+const QUEUE_INSIGHT_PLACEHOLDER = 'Enter your User ID and refresh queue to see users behind you.';
 
 const log = (title, payload) => {
   if (!logEl) return;
@@ -192,7 +193,7 @@ const initBookingPage = () => {
     if (!queueInsightEl) return;
     const userId = Number(userIdInput?.value);
     if (!userId || !latestQueueStatus) {
-      queueInsightEl.textContent = 'Enter your User ID and refresh queue to see users behind you.';
+      queueInsightEl.textContent = QUEUE_INSIGHT_PLACEHOLDER;
       return;
     }
 
