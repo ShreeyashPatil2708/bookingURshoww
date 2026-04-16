@@ -64,6 +64,21 @@ npm start
 npm run dev
 ```
 
+### 5. Open the frontend
+
+After starting the server, open:
+
+```
+http://localhost:3000
+```
+
+The frontend is a static HTML/CSS/JS client served by Express and supports:
+- Registering users
+- Creating events
+- Entering/exiting queue
+- Booking tickets
+- Viewing users/events/queue status
+
 ---
 
 ## API Reference

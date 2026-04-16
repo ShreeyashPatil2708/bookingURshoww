@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 
 const userRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
@@ -12,6 +13,7 @@ const app = express();
 
 // Parse incoming JSON request bodies
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Global IP-based rate limiter: max 60 requests per minute per IP
 app.use(
