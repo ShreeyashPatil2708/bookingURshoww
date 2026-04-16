@@ -211,7 +211,7 @@ const initBookingPage = () => {
       return;
     }
 
-    queueInsightEl.textContent = 'You are not currently in queue.';
+    queueInsightEl.textContent = 'You are not currently in the queue.';
   };
 
   const refreshBookingQueueStatus = async () => {
