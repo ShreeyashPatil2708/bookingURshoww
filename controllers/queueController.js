@@ -115,6 +115,7 @@ const getQueueStatus = (req, res) => {
     queueLength: queue.length,
     activeUserList: Array.from(activeUsers),
     waitingUsers: queue,
+    waitingQueue: queue,
   });
 };
 
