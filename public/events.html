@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bookingURshoww | Events</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="events">
+    <header class="topbar">
+      <div class="brand">
+        <h1>bookingURshoww</h1>
+        <p>Event management</p>
+      </div>
+      <nav class="nav">
+        <a href="/">Dashboard</a>
+        <a href="/users.html">Users</a>
+        <a class="active" href="/events.html">Events</a>
+        <a href="/queue.html">Queue</a>
+        <a href="/booking.html">Booking</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="panel">
+        <h2>Create Event</h2>
+        <form id="event-form" class="form-grid">
+          <label>
+            Event Name
+            <input type="text" id="event-name" placeholder="Concert Night" required />
+          </label>
+          <label>
+            Total Seats
+            <input type="number" id="event-seats" min="1" placeholder="100" required />
+          </label>
+          <button type="submit">Create Event</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="section-header">
+          <h3>Events</h3>
+          <button id="refresh-events" type="button">Refresh</button>
+        </div>
+        <ul id="events-list" class="list"></ul>
+      </section>
+
+      <section class="panel">
+        <h3>System Log</h3>
+        <pre id="log" class="output">Ready.</pre>
+      </section>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

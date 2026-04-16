@@ -72,12 +72,12 @@ After starting the server, open:
 http://localhost:3000
 ```
 
-The frontend is a static HTML/CSS/JS client served by Express and supports:
-- Registering users
-- Creating events
-- Entering/exiting queue
-- Booking tickets
-- Viewing users/events/queue status
+The frontend is a static multi-page HTML/CSS/JS client served by Express:
+- `/` → Dashboard (summary cards + recent users/events)
+- `/users.html` → Register and monitor users
+- `/events.html` → Create and monitor events
+- `/queue.html` → Queue entry/exit + queue status
+- `/booking.html` → Ticket booking with live event/queue snapshots
 
 ---
 

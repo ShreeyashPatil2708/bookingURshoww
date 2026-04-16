@@ -1,80 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bookingURshoww</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <main class="container">
-    <h1>bookingURshoww</h1>
-    <p class="subtitle">Ticket booking demo frontend for the existing API.</p>
-
-    <section class="card">
-      <h2>Register User</h2>
-      <form id="register-form">
-        <input type="text" id="register-name" placeholder="Name" required />
-        <input type="email" id="register-email" placeholder="Email" required />
-        <button type="submit">Register</button>
-      </form>
-    </section>
-
-    <section class="card">
-      <h2>Create Event</h2>
-      <form id="event-form">
-        <input type="text" id="event-name" placeholder="Event name" required />
-        <input type="number" id="event-seats" min="1" placeholder="Total seats" required />
-        <button type="submit">Create Event</button>
-      </form>
-    </section>
-
-    <section class="card">
-      <h2>Queue Actions</h2>
-      <form id="enter-queue-form">
-        <input type="number" id="enter-user-id" min="1" placeholder="User ID" required />
-        <button type="submit">Enter Queue</button>
-      </form>
-      <form id="exit-queue-form">
-        <input type="number" id="exit-user-id" min="1" placeholder="User ID" required />
-        <button type="submit">Exit Queue</button>
-      </form>
-      <button id="queue-status-btn" type="button">Refresh Queue Status</button>
-      <pre id="queue-status" class="output">No queue data yet.</pre>
-    </section>
-
-    <section class="card">
-      <h2>Book Ticket</h2>
-      <form id="book-form">
-        <input type="number" id="book-user-id" min="1" placeholder="User ID" required />
-        <input type="number" id="book-event-id" min="1" placeholder="Event ID" required />
-        <button type="submit">Book</button>
-      </form>
-    </section>
-
-    <section class="card grid">
-      <div>
-        <div class="section-header">
-          <h2>Users</h2>
-          <button id="refresh-users" type="button">Refresh</button>
-        </div>
-        <ul id="users-list" class="list"></ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bookingURshoww | Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="dashboard">
+    <header class="topbar">
+      <div class="brand">
+        <h1>bookingURshoww</h1>
+        <p>Ticket operations console</p>
       </div>
-      <div>
+      <nav class="nav">
+        <a class="active" href="/">Dashboard</a>
+        <a href="/users.html">Users</a>
+        <a href="/events.html">Events</a>
+        <a href="/queue.html">Queue</a>
+        <a href="/booking.html">Booking</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="panel hero">
+        <h2>Welcome to the booking control center</h2>
+        <p>Use the pages above to manage users, events, queue flow, and bookings with a clean operational workflow.</p>
+      </section>
+
+      <section class="panel">
         <div class="section-header">
-          <h2>Events</h2>
-          <button id="refresh-events" type="button">Refresh</button>
+          <h3>Platform Overview</h3>
+          <button id="refresh-dashboard" type="button">Refresh</button>
         </div>
-        <ul id="events-list" class="list"></ul>
-      </div>
-    </section>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Total users</span>
+            <strong id="users-count">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Total events</span>
+            <strong id="events-count">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Available seats</span>
+            <strong id="available-seats">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Queue waiting</span>
+            <strong id="queue-waiting">0</strong>
+          </article>
+        </div>
+      </section>
 
-    <section class="card">
-      <h2>Response Log</h2>
-      <pre id="log" class="output">Ready.</pre>
-    </section>
-  </main>
+      <section class="panel split">
+        <article>
+          <h3>Recent Users</h3>
+          <ul id="dashboard-users" class="list"></ul>
+        </article>
+        <article>
+          <h3>Recent Events</h3>
+          <ul id="dashboard-events" class="list"></ul>
+        </article>
+      </section>
 
-  <script src="script.js"></script>
-</body>
+      <section class="panel">
+        <h3>System Log</h3>
+        <pre id="log" class="output">Ready.</pre>
+      </section>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
 </html>
