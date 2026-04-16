@@ -1,4 +1,5 @@
 // server.js - Main entry point for the Ticket Booking System
+require('dotenv').config();
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 
