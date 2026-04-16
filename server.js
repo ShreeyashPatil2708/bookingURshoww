@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const cors = require('cors');
 
 const userRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
@@ -10,6 +11,12 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const queueRoutes = require('./routes/queueRoutes');
 
 const app = express();
+app.use(cors());
+
+app.use((req, res, next) => {
+  res.locals.BASE_URL = process.env.BASE_URL;
+  next();
+});
 
 // Parse incoming JSON request bodies
 app.use(express.json());

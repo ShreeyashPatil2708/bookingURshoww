@@ -1,5 +1,6 @@
 const page = document.body.dataset.page;
 const logEl = document.getElementById('log');
+const BASE_URL = window.BASE_URL;
 
 const log = (title, payload) => {
   if (!logEl) return;
@@ -7,10 +8,18 @@ const log = (title, payload) => {
 };
 
 const request = async (url, options = {}) => {
-  const response = await fetch(url, {
-    headers: { 'Content-Type': 'application/json' },
+  const hasBody = options.body !== undefined;
+
+  const config = {
+    method: options.method || (hasBody ? 'POST' : 'GET'),
+    headers: {
+      ...(hasBody && { 'Content-Type': 'application/json' }),
+      ...options.headers,
+    },
     ...options,
-  });
+  };
+
+  const response = await fetch(`${BASE_URL}${url}`, config);
 
   let data;
   try {
@@ -20,6 +29,7 @@ const request = async (url, options = {}) => {
   }
 
   if (!response.ok) throw { status: response.status, data };
+
   return data;
 };
 
