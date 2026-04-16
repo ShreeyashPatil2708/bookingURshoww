@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bookingURshoww | Booking</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="booking">
+    <header class="topbar">
+      <div class="brand">
+        <h1>bookingURshoww</h1>
+        <p>Book seats</p>
+      </div>
+      <nav class="nav">
+        <a href="/">Dashboard</a>
+        <a href="/users.html">Users</a>
+        <a href="/events.html">Events</a>
+        <a href="/queue.html">Queue</a>
+        <a class="active" href="/booking.html">Booking</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="panel">
+        <h2>Book Ticket</h2>
+        <form id="book-form" class="form-grid">
+          <label>
+            User ID
+            <input type="number" id="book-user-id" min="1" placeholder="1" required />
+          </label>
+          <label>
+            Event ID
+            <input type="number" id="book-event-id" min="1" placeholder="1" required />
+          </label>
+          <button type="submit">Book Seat</button>
+        </form>
+      </section>
+
+      <section class="panel split">
+        <article>
+          <div class="section-header">
+            <h3>Events Snapshot</h3>
+            <button id="refresh-events" type="button">Refresh</button>
+          </div>
+          <ul id="events-list" class="list"></ul>
+        </article>
+        <article>
+          <div class="section-header">
+            <h3>Queue Snapshot</h3>
+            <button id="queue-status-btn" type="button">Refresh</button>
+          </div>
+          <pre id="queue-status" class="output">No queue data yet.</pre>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h3>System Log</h3>
+        <pre id="log" class="output">Ready.</pre>
+      </section>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

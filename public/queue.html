@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bookingURshoww | Queue</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="queue">
+    <header class="topbar">
+      <div class="brand">
+        <h1>bookingURshoww</h1>
+        <p>Queue management</p>
+      </div>
+      <nav class="nav">
+        <a href="/">Dashboard</a>
+        <a href="/users.html">Users</a>
+        <a href="/events.html">Events</a>
+        <a class="active" href="/queue.html">Queue</a>
+        <a href="/booking.html">Booking</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="panel split">
+        <article>
+          <h2>Enter Queue</h2>
+          <form id="enter-queue-form" class="form-grid">
+            <label>
+              User ID
+              <input type="number" id="enter-user-id" min="1" placeholder="1" required />
+            </label>
+            <button type="submit">Enter Queue</button>
+          </form>
+        </article>
+        <article>
+          <h2>Exit Queue</h2>
+          <form id="exit-queue-form" class="form-grid">
+            <label>
+              User ID
+              <input type="number" id="exit-user-id" min="1" placeholder="1" required />
+            </label>
+            <button type="submit" class="btn-secondary">Exit Queue</button>
+          </form>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="section-header">
+          <h3>Queue Status</h3>
+          <button id="queue-status-btn" type="button">Refresh</button>
+        </div>
+        <pre id="queue-status" class="output">No queue data yet.</pre>
+      </section>
+
+      <section class="panel">
+        <h3>System Log</h3>
+        <pre id="log" class="output">Ready.</pre>
+      </section>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

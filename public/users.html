@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bookingURshoww | Users</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="users">
+    <header class="topbar">
+      <div class="brand">
+        <h1>bookingURshoww</h1>
+        <p>User management</p>
+      </div>
+      <nav class="nav">
+        <a href="/">Dashboard</a>
+        <a class="active" href="/users.html">Users</a>
+        <a href="/events.html">Events</a>
+        <a href="/queue.html">Queue</a>
+        <a href="/booking.html">Booking</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="panel">
+        <h2>Register User</h2>
+        <form id="register-form" class="form-grid">
+          <label>
+            Name
+            <input type="text" id="register-name" placeholder="John Doe" required />
+          </label>
+          <label>
+            Email
+            <input type="email" id="register-email" placeholder="john@email.com" required />
+          </label>
+          <button type="submit">Create User</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="section-header">
+          <h3>Users</h3>
+          <button id="refresh-users" type="button">Refresh</button>
+        </div>
+        <ul id="users-list" class="list"></ul>
+      </section>
+
+      <section class="panel">
+        <h3>System Log</h3>
+        <pre id="log" class="output">Ready.</pre>
+      </section>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
