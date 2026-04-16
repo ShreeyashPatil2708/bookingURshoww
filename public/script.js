@@ -192,7 +192,7 @@ const initBookingPage = () => {
     if (!queueInsightEl) return;
     const userId = Number(userIdInput?.value);
     if (!userId || !latestQueueStatus) {
-      queueInsightEl.textContent = 'Enter your User ID and refresh queue to see people behind you.';
+      queueInsightEl.textContent = 'Enter your User ID and refresh queue to see users behind you.';
       return;
     }
 
@@ -201,13 +201,13 @@ const initBookingPage = () => {
     const waitingIndex = waitingUsers.indexOf(userId);
 
     if (waitingIndex !== -1) {
-      const peopleAfterYou = waitingUsers.length - waitingIndex - 1;
-      queueInsightEl.textContent = `${peopleAfterYou} people are in queue after you.`;
+      const usersAfterYou = waitingUsers.length - waitingIndex - 1;
+      queueInsightEl.textContent = `${usersAfterYou} users are in queue after you.`;
       return;
     }
 
     if (activeUsers.map((id) => Number(id)).includes(userId)) {
-      queueInsightEl.textContent = `${waitingUsers.length} people are currently in queue after you.`;
+      queueInsightEl.textContent = `${waitingUsers.length} users are currently in queue after you.`;
       return;
     }
 
